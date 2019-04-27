@@ -1,0 +1,3 @@
+#!/bin/bash
+curl -L https://webrtc.github.io/adapter/adapter-latest.js > client/adapter.js
+
