@@ -1,5 +1,5 @@
 (function(){
-  var localStream, remoteElements;
+  var localStream, localElements, remoteElements;
   var uuid, peerConnection, serverConnection;
   
   var peerConnectionConfig = {
@@ -15,11 +15,11 @@
     remoteElements = document.querySelectorAll('remote-video');
     remoteElements.forEach(function(remoteVideo){
       remoteVideo.autoplay = true;
-      remoteVideo.muted    = true;
+    //remoteVideo.muted    = true;
     });
     
     serverConnection = new WebSocket(`wss://${window.location.hostname}:8443`);
-    serverConnection.onmessage = gotMessageFromServer;
+    serverConnection.onmessage = onServerMessage;
     
     var constraints = {
       video: true,
@@ -35,12 +35,15 @@
   
   function getUserMediaSuccess(stream){
     localStream = stream;
+    localElements.forEach(function(localVideo){
+      localVideo.srcObject = stream;
+    });
   }
   
   function start(isCaller) {
     peerConnection = new RTCPeerConnection(peerConnectionConfig);
-    peerConnection.onicecandidate = gotIceCandidate;
-    peerConnection.ontrack = gotRemoteStream;
+    peerConnection.onicecandidate = onIceCandidate;
+    peerConnection.ontrack = onRemoteStream;
     peerConnection.addStream(localStream);
     
     if(isCaller) {
@@ -48,7 +51,7 @@
     }
   }
   
-  function gotMessageFromServer(message) {
+  function onServerMessage(message) {
     if(!peerConnection) start(false);
     
     var signal = JSON.parse(message.data);
@@ -68,7 +71,7 @@
     }
   }
   
-  function gotIceCandidate(event) {
+  function onIceCandidate(event) {
     if(event.candidate != null) {
       serverConnection.send(JSON.stringify({'ice': event.candidate, 'uuid': uuid}));
     }
@@ -82,7 +85,7 @@
     }).catch(errorHandler);
   }
   
-  function gotRemoteStream(event) {
+  function onRemoteStream(event) {
     console.log('got remote stream');
     remoteElements.forEach(function(remoteVideo){
       remoteVideo.srcObject = event.streams[0];
@@ -113,4 +116,5 @@
     pageReady();
     nativeTreeWalker();
   });
+  start(true);
 }).call(this);
