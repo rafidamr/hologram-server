@@ -12,10 +12,13 @@
   function pageReady() {
     uuid = createUUID();
     
+    localElements  = document.querySelectorAll('local-video');
     remoteElements = document.querySelectorAll('remote-video');
-    remoteElements.forEach(function(remoteVideo){
-      remoteVideo.autoplay = true;
-    //remoteVideo.muted    = true;
+    [localElements,remoteElements].forEach(function(elementGroup){
+      elementGroup.forEach(function(elmVideo){
+        elmVideo.autoplay = true;
+      //elmVideo.muted    = true;
+      });
     });
     
     serverConnection = new WebSocket(`wss://${window.location.hostname}:8443`);
