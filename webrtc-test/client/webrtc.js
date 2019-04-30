@@ -41,7 +41,9 @@
     localElements.forEach(function(localVideo){
       localVideo.srcObject = stream;
     });
-    start(true);
+    setTimeout(function(){
+      start(true);
+    },1667);
   }
   
   function start(isCaller) {
