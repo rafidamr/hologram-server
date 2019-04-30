@@ -12,8 +12,8 @@
   function pageReady() {
     uuid = createUUID();
     
-    localElements  = document.querySelectorAll('local-video');
-    remoteElements = document.querySelectorAll('remote-video');
+    localElements  = document.querySelectorAll('.local-video');
+    remoteElements = document.querySelectorAll('.remote-video');
     [localElements,remoteElements].forEach(function(elementGroup){
       elementGroup.forEach(function(elmVideo){
         elmVideo.autoplay = true;
