@@ -41,6 +41,7 @@
     localElements.forEach(function(localVideo){
       localVideo.srcObject = stream;
     });
+    start(true);
   }
   
   function start(isCaller) {
@@ -119,5 +120,4 @@
     pageReady();
     nativeTreeWalker();
   });
-  start(true);
 }).call(this);
