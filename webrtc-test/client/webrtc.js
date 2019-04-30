@@ -26,7 +26,7 @@
     
     var constraints = {
       video: true,
-      audio: false,
+      audio: true,
     };
     
     if(navigator.mediaDevices.getUserMedia) {
@@ -41,9 +41,7 @@
     localElements.forEach(function(localVideo){
       localVideo.srcObject = stream;
     });
-    setTimeout(function(){
-      start(true);
-    },1667);
+    start(true);
   }
   
   function start(isCaller) {
@@ -64,7 +62,7 @@
     
     // Ignore messages from ourself
     if(signal.uuid == uuid) return;
-  
+    
     if(signal.sdp) {
       peerConnection.setRemoteDescription(new RTCSessionDescription(signal.sdp)).then(function() {
         // Only create answers in response to offers
@@ -84,7 +82,7 @@
   }
   
   function createdDescription(description) {
-    console.log('got description', description);
+    console.log('got description');
     
     peerConnection.setLocalDescription(description).then(function() {
       serverConnection.send(JSON.stringify({'sdp': peerConnection.localDescription, 'uuid': uuid}));
@@ -119,7 +117,7 @@
       .replace(/(\S)\s+\</g,"$1<");
   }
   document.addEventListener('DOMContentLoaded',function(){
-    pageReady();
     nativeTreeWalker();
+    pageReady();
   });
 }).call(this);
