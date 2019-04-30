@@ -82,7 +82,7 @@
   }
   
   function createdDescription(description) {
-    console.log('got description');
+    console.log('got description', description);
     
     peerConnection.setLocalDescription(description).then(function() {
       serverConnection.send(JSON.stringify({'sdp': peerConnection.localDescription, 'uuid': uuid}));
@@ -97,7 +97,7 @@
   }
   
   function errorHandler(error) {
-    console.log(error);
+    console.error(error);
   }
   
   // Taken from http://stackoverflow.com/a/105074/515584
