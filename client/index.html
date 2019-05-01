@@ -6,10 +6,50 @@
   </head>
 
   <body>
-    <video id="localVideo" autoplay muted style="width:40%;"></video>
-    <video id="remoteVideo" autoplay style="width:40%;"></video>
+   <style>
+      body {
+        background: black;
+      }
+      div {
+        margin: 0; padding: 0;
+      }
+      .uncommon-row {
+        position:relative;
+        width: 100%;
+        height 30%;
+      }
+      .uncommon-entry {
+        display: inline-block;
+        position:relative;
+        width: 33%;
+        height: 100%;
+        background: #222;
+      }
+      .uncommon-entry video {
+        width: 100%;
+        height: 100%;
+        background: #444;
+      }
+    </style>
 
-    <br />
+<!--     <video id="localVideo" autoplay muted style="width:40%;"></video>
+    <video id="remoteVideo" autoplay style="width:40%;"></video> -->
+
+    <div class="uncommon-row">
+      <div class="uncommon-entry"></div>
+      <div class="uncommon-entry"><video id="remoteVideo" autoplay muted></video></div>
+      <div class="uncommon-entry"></div>
+    </div>
+    <div class="uncommon-row">
+      <div class="uncommon-entry"><video id="remoteVideo2" autoplay muted></video></div>
+      <div class="uncommon-entry"><video id="localVideo" autoplay></div>
+      <div class="uncommon-entry"><video id="remoteVideo3" autoplay muted></video></div>
+    </div>
+    <div class="uncommon-row">
+      <div class="uncommon-entry"></div>
+      <div class="uncommon-entry"><video id="remoteVideo4" autoplay muted></video></div>
+      <div class="uncommon-entry"></div>
+    </div>
 
     <input type="button" id="start" onclick="start(true)" value="Start Video"></input>
 

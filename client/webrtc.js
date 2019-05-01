@@ -15,8 +15,11 @@ var peerConnectionConfig = {
 function pageReady() {
   uuid = createUUID();
 
-  localVideo = document.getElementById('localVideo');
   remoteVideo = document.getElementById('remoteVideo');
+  remoteVideo2 = document.getElementById('remoteVideo2');
+  remoteVideo3 = document.getElementById('remoteVideo3');
+  remoteVideo4 = document.getElementById('remoteVideo4');
+  localVideo = document.getElementById('localVideo');
 
   serverConnection = new WebSocket('wss://' + window.location.hostname + ':8443');
   serverConnection.onmessage = gotMessageFromServer;
@@ -86,6 +89,9 @@ function createdDescription(description) {
 function gotRemoteStream(event) {
   console.log('got remote stream');
   remoteVideo.srcObject = event.streams[0];
+  remoteVideo2.srcObject = event.streams[0];
+  remoteVideo3.srcObject = event.streams[0];
+  remoteVideo4.srcObject = event.streams[0];
 }
 
 function errorHandler(error) {
