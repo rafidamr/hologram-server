@@ -49,10 +49,10 @@ wss.on('connection', function(ws) {
     console.log('received: %s', message);
     wss.broadcast(message);
   });
-  ws.on('open', function(e) {
-  });
-  ws.on('close', function(e) {
-  });
+  //ws.on('open', function(e) {
+  //});
+  //ws.on('close', function(e) {
+  //});
 });
 
 wss.broadcast = function(data) {

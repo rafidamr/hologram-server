@@ -15,9 +15,14 @@
     localElements  = document.querySelectorAll('.local-video');
     remoteElements = document.querySelectorAll('.remote-video');
     [localElements,remoteElements].forEach(function(elementGroup){
+      console.log(elementGroup);
       elementGroup.forEach(function(elmVideo){
         elmVideo.autoplay = true;
-      //elmVideo.muted    = true;
+        elmVideo.width    = 420;
+        elmVideo.height   = 420;
+        elmVideo.videoWidth    = 420;
+        elmVideo.videoHeight   = 420;
+       //elmVideo.muted    = true;
       });
     });
     
@@ -26,8 +31,17 @@
     
     var constraints = {
       video: true,
-      audio: true,
+      audio: false,
     };
+    
+    document.querySelectorAll('video').forEach(function(vdom){
+      vdom.addEventListener('durationchange',function(){
+        var maxSize = Math.max(vdom.videoWidth,vdom.videoHeight);
+        ['width','height'].forEach(function(k){
+          vdom[k] = maxSize;
+        });
+      })
+    });
     
     if(navigator.mediaDevices.getUserMedia) {
       navigator.mediaDevices.getUserMedia(constraints).then(getUserMediaSuccess).catch(errorHandler);
@@ -40,6 +54,7 @@
     localStream = stream;
     localElements.forEach(function(localVideo){
       localVideo.srcObject = stream;
+      localVideo.muted = true;
     });
     start(true);
   }
@@ -64,7 +79,8 @@
     if(signal.uuid == uuid) return;
     
     if(signal.sdp) {
-      peerConnection.setRemoteDescription(new RTCSessionDescription(signal.sdp)).then(function() {
+      var rtcs = new RTCSessionDescription(signal.sdp);
+      peerConnection.setRemoteDescription(rtcs).then(function() {
         // Only create answers in response to offers
         if(signal.sdp.type == 'offer') {
            peerConnection.createAnswer().then(createdDescription).catch(errorHandler);
